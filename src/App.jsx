@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import Conversor from "./Conversor";
 import Usuarios from "./Usuarios";
 import Registro from "./Registro";
+import Productos from "./Productos"; // ✔️ Ahora este es tu nuevo componente de tabla
 
 function App() {
   const [usuario, setUsuario] = useState('');
@@ -13,15 +13,17 @@ function App() {
   function cambiarUsuario(evento) {
     setUsuario(evento.target.value);
   }
+
   function cambiarClave(evento) {
     setClave(evento.target.value);
   }
-  function recargarAhora(){
-    setRecargar(!recargar)
+
+  function recargarAhora() {
+    setRecargar(!recargar);
   }
 
   async function ingresar() {
-    const peticion = await fetch("http://localhost:3000/login?usuario=" + usuario + "&clave=" + clave,{ credentials: "include"})
+    const peticion = await fetch(`http://localhost:3000/login?usuario=${usuario}&clave=${clave}`, { credentials: "include" });
     if (peticion.ok) {
       setLogueado(true);
     } else {
@@ -30,11 +32,12 @@ function App() {
   }
 
   async function validar() {
-    const peticion = await fetch("http://localhost:3000/validar", {credentials: "include"})
+    const peticion = await fetch("http://localhost:3000/validar", { credentials: "include" });
     if (peticion.ok) {
       setLogueado(true);
     }
   }
+
   useEffect(() => {
     validar();
   }, []);
@@ -42,12 +45,11 @@ function App() {
   if (logueado) {
     return (
       <>
-        <Registro recargarAhora={recargarAhora}/>
-        <Conversor />
-        <Usuarios recargar={recargar}/>
-        
+        <Registro recargarAhora={recargarAhora} />
+        <Productos /> {/* ✔️ Ahora aquí va tu tabla de productos */}
+        <Usuarios recargar={recargar} />
       </>
-    )
+    );
   }
 
   return (
@@ -70,8 +72,8 @@ function App() {
         onChange={cambiarClave}
       />
       <button onClick={ingresar}>Ingresar</button>
-
     </>
   );
 }
+
 export default App;
