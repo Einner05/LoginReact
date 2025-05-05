@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 
 
-function Usuarios() {
+function Usuarios({recargar}) {
   const [usuarios, setUsuarios] = useState([]);
   async function obtenerUsuarios() {
     const peticion = await fetch("http://localhost:3000/usuarios", {credentials: "include",});
@@ -13,7 +13,7 @@ function Usuarios() {
   }
 
   async function eliminarUsuario(id) {
-    const peticion = await fetch("http://localhost:3000/usuarios?id=" + id, {credentials: "include",});
+    const peticion = await fetch("http://localhost:3000/usuarios?id=" + id, {credentials: "include",method:'DELETE'});
     if (peticion.ok) {
       alert("Usuario eliminado");
       obtenerUsuarios();
@@ -22,7 +22,7 @@ function Usuarios() {
 
   useEffect(() => {
     obtenerUsuarios();
-  }, []);
+  }, [recargar]);
 
   return (
     <>

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import './App.css'
 
 
-function Registro() {
+function Registro({ recargarAhora }) {
 
   const [usuarioRegistro, setUsuarioRegistro] = useState('')
   const [claveRegistro,setClaveRegistro]= useState('')
@@ -20,8 +20,7 @@ function Registro() {
     const peticion=await fetch('http://localhost:3000/registro?usuario='+usuarioRegistro+'&claveRegistro='+claveRegistro,{credentials:'include'})
     if(peticion.ok){
       alert("Usuario registrado")
-      setLogueado(true)
-      obtenerUsuario();
+      recargarAhora()
     }else{
       alert('Usuario no registrado')
     }

@@ -5,9 +5,10 @@ import Usuarios from "./Usuarios";
 import Registro from "./Registro";
 
 function App() {
-  const [usuario, setUsuario] = useState("");
-  const [clave, setClave] = useState("");
+  const [usuario, setUsuario] = useState('');
+  const [clave, setClave] = useState('');
   const [logueado, setLogueado] = useState(false);
+  const [recargar, setRecargar] = useState(false);
 
   function cambiarUsuario(evento) {
     setUsuario(evento.target.value);
@@ -15,11 +16,12 @@ function App() {
   function cambiarClave(evento) {
     setClave(evento.target.value);
   }
+  function recargarAhora(){
+    setRecargar(!recargar)
+  }
 
   async function ingresar() {
-    const peticion = await fetch(
-      "http://localhost:3000/login?usuario=" + usuario + "&clave=" + clave,{ credentials: "include" }
-    );
+    const peticion = await fetch("http://localhost:3000/login?usuario=" + usuario + "&clave=" + clave,{ credentials: "include"})
     if (peticion.ok) {
       setLogueado(true);
     } else {
@@ -28,9 +30,7 @@ function App() {
   }
 
   async function validar() {
-    const peticion = await fetch("http://localhost:3000/validar", {
-      credentials: "include",
-    });
+    const peticion = await fetch("http://localhost:3000/validar", {credentials: "include"})
     if (peticion.ok) {
       setLogueado(true);
     }
@@ -42,9 +42,10 @@ function App() {
   if (logueado) {
     return (
       <>
+        <Registro recargarAhora={recargarAhora}/>
         <Conversor />
-        <Usuarios/>
-        <Registro/>
+        <Usuarios recargar={recargar}/>
+        
       </>
     )
   }
